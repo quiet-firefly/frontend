@@ -8,7 +8,6 @@ db.hunts.insert({
   description: ""
 })
 
-
 db.hunts.insert({
   hunt_id: 1,
   hunt_name: "Sample Hunt 1",

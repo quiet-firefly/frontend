@@ -2,16 +2,26 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 
 export default class CreateHunt extends React.Component {
-  getHunts () {
+  // getHunts () {
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: '/api/hunts',
+  //     datatype: 'jsonp',
+  //     success: function(data) {
+  //       // this.setState(data);
+  //       console.log(data);
+  //     }
+  //   })
+  // };
+
+  onSubmit (e) {
+
+    e.preventDefault();
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       url: '/api/hunts',
-      datatype: 'jsonp',
-      success: function(data) {
-        // this.setState(data);
-        console.log(data);
-      }
-    })
+      data: $('#huntForm').serialize()
+    });
   };
 
   render () {
@@ -21,7 +31,7 @@ export default class CreateHunt extends React.Component {
           <h4 className={"blue-text"}> Create a Scavenger Hunt </h4>
         </div>
         <div className={"row"}>
-          <form name="huntForm" className={"col m3"}>
+          <form id="huntForm" className={"col m3"} onSubmit={this.onSubmit} method="post">
             <label> Hunt Name
             <input type="text" name="hunt_name" onChange={this.getHunts}/>
             </label>
@@ -35,11 +45,12 @@ export default class CreateHunt extends React.Component {
             <input type="time" name="end_time"/>
             </label>
             <label> Location
-            <input type="text" name="general_location"/>
+            <input type="text" name="location"/>
             </label>
             <label> Description
-            <input type="text" name="general_description"/>
+            <input type="text" name="description"/>
             </label>
+            <button> Submit </button>
           </form>
         </div>
       </div>

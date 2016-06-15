@@ -10,11 +10,20 @@ var mongoose = require('mongoose');
 var app = express();
 var compiler = webpack(config);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
 mongoose.connect('mongodb://localhost/scavenger');
 require('./models/Hunts');
+require('./models/Users');
+require('./models/Clues');
+require('./models/Invites');
 
 var db = mongoose.connection;
 var Hunt = mongoose.model('Hunt');
+var User = mongoose.model('User');
+var Clue = mongoose.model('Clue');
+var Invite = mongoose.model('Invite');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -26,6 +35,41 @@ app.get('/api/hunts', function(req, res) {
     if (err) { next(err); }
 
     res.json(hunts);
+  })
+});
+
+app.post('/api/hunts', function(req, res, next) {
+  console.log(req.body);
+  var hunt_name = req.body.hunt_name;
+  var date = req.body.date;
+  var start_time = req.body.start_time;
+  var end_time = req.body.end_time;
+  var location = req.body.location;
+  var description = req.body.description;
+
+  db.collections.hunts.insert({
+    hunt_name: hunt_name,
+    date: date,
+    start_time: start_time,
+    end_time: end_time,
+    location: location,
+    description: description
+  })
+});
+
+app.get('/api/users', function(req, res) {
+  User.find(function(err, users) {
+    if (err) { next(err); }
+
+    res.json(users);
+  })
+});
+
+app.get('/api/clues', function(req, res) {
+  Clue.find(function(err, clues) {
+    if (err) { next(err); }
+
+    res.json(clues);
   })
 });
 
