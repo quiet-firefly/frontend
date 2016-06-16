@@ -1,12 +1,11 @@
 import { default as React, Component } from "react";
-import { GoogleMap, Marker, SearchBox, InfoWindow, Circle } from "react-google-maps";
+import { GoogleMap, Marker, SearchBox, Circle, InfoWindow } from "react-google-maps";
 import DocumentTitle from 'react-document-title';
-import {Button, Icon, Row, Input} from 'react-materialize';
-import { Link } from 'react-router';
+import {Button, Icon, Row, Input, } from 'react-materialize';
 import { default as canUseDOM,} from "can-use-dom";
 import { default as raf } from "raf";
-
-// !!Need to retrieve Hunt ID and then update Hunt ID with clue data upon completion of form
+import { Link } from 'react-router';
+import ToggleDisplay from 'react-toggle-display';
 
 const geolocation = (
   canUseDOM && navigator.geolocation || {
@@ -18,96 +17,99 @@ const geolocation = (
 
 export default class CreateClues extends Component {
   static inputStyle = {
-      "border": `1px solid transparent`,
-      "borderRadius": `1px`,
-      "boxShadow": `0 2px 6px rgba(0, 0, 0, 0.3)`,
-      "boxSizing": `border-box`,
-      "MozBoxSizing": `border-box`,
-      "fontSize": `14px`,
-      "height": `32px`,
-      "marginTop": `10px`,
-      "outline": `none`,
-      "padding": `0 12px`,
-      "textOverflow": `ellipses`,
-      "width": `400px`,
-      "background-color": `white`,
-    }
-
-    static mapCenter = {
-      lat: 47.598962,
-      lng: -122.333799,
-    }
+    "border": `1px solid transparent`,
+    "borderRadius": `1px`,
+    "boxShadow": `0 2px 6px rgba(0, 0, 0, 0.3)`,
+    "boxSizing": `border-box`,
+    "MozBoxSizing": `border-box`,
+    "fontSize": `14px`,
+    "height": `32px`,
+    "marginTop": `10px`,
+    "outline": `none`,
+    "padding": `0 12px`,
+    "textOverflow": `ellipses`,
+    "width": `400px`,
+    "background-color": `white`,
+  }
 
   state = {
     bounds: null,
-    center: CreateClues.mapCenter,
+    center: null,
+    content: null,
+    radius: 60,
     markers: [],
-    radius: 6000,
+  }
+
+  componentDidMount() {
+    geolocation.getCurrentPosition((position) => {
+      this.setState({
+        center: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        },
+        content: `Your Current Location`,
+      });
+
+      this.setState({
+        bounds: this.refs.map.getBounds(),
+        center: this.refs.map.getCenter(),
+      });
+
+      const tick = () => {
+        this.setState({ radius: Math.max(this.state.radius - 20, 0) });
+
+        if (this.state.radius > 200) {
+          raf(tick);
+        }
+      };
+      raf(tick);
+    }, (reason) => {
+      this.setState({
+        center: {
+          lat: 60,
+          lng: 105,
+        },
+        content: `Error: The Geolocation service failed (${ reason }).`,
+      });
+    });
   }
 
   handleBoundsChanged() {
-     this.setState({
-       bounds: this.refs.map.getBounds(),
-       center: this.refs.map.getCenter(),
-     });
-   }
+   this.setState({
+     bounds: this.refs.map.getBounds(),
+     center: this.refs.map.getCenter(),
+   });
+  }
 
-   handlePlacesChanged() {
-     const places = this.refs.searchBox.getPlaces();
-     const markers = [];
-     var boundLatLow;
-     var boundLatHigh;
-     var boundLngLow;
-     var boundLngHigh;
+  handlePlacesChanged() {
+    const places = this.refs.searchBox.getPlaces();
+    const markers = [];
 
-     // Add a marker for each place returned from search bar
-     places.forEach(function (place) {
-       markers.push({
-         position: place.geometry.location,
-       });
-     });
+    // Add a marker for each place returned from search bar
+    places.forEach(function (place) {
+      markers.push({
+        position: place.geometry.location,
+      });
+      console.log("Lat: " + place.geometry.location.lat());
+      console.log("Lng: " + place.geometry.location.lng());
+      console.log("Name: " + place.name);
+    });
 
-     this.setState({
-       bounds: this.refs.map.getBounds(),
-     });
-     boundLatLow = this.refs.map.getBounds().H.H;
-     boundLatHigh = this.refs.map.getBounds().H.j;
-     boundLngLow = this.refs.map.getBounds().j.j;
-     boundLngHigh = this.refs.map.getBounds().j.H;
-     console.log(boundLatLow);
+    // Set markers; set map center to first search result
+    const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
 
-     const tick = () => {
-       this.setState({ radius: Math.max(this.state.radius - 20, 0) });
+    this.setState({
+      center: mapCenter,
+      markers,
+    });
+  }
 
-       if (this.state.radius > 200) {
-         raf(tick);
-       }
-     };
-     raf(tick);
-     (reason) => {
-       this.setState({
-         center: {
-           lat: 60,
-           lng: 105,
-         },
-         content: `Error: The Geolocation service failed (${ reason }).`,
-       });
-     }
-
-
-     // Set markers; set map center to first search result
-     const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
-
-     this.setState({
-       center: mapCenter,
-       markers,
-     });
-   }
-
-   addClue(e) {
+  addClue(e) {
      e.preventDefault();
-     console.log(this.state.center.lat());
-     console.log(this.state.center.lng());
+     var boundLatLow = this.state.center.lat() + .00040;
+     var boundLatHigh = this.state.center.lat() - .00040;
+     var boundLngLow = this.state.center.lng() - .00040;
+     var boundLngHigh = this.state.center.lng() + .00040;
      $.ajax({
        type: 'POST',
        url: '/api/clues',
@@ -128,14 +130,14 @@ export default class CreateClues extends Component {
     if (center) {
       contents = contents.concat([
         (<InfoWindow key="info" position={center} content={content} />),
-        (<Circle key="circle" center={center} radius={radius} options={{
-          fillColor: `red`,
-          fillOpacity: 0.20,
-          strokeColor: `red`,
-          strokeOpacity: 1,
-          strokeWeight: 1,
-        }}
-        />),
+        // (<Circle key="circle" center={center} radius={radius} options={{
+        //   fillColor: `red`,
+        //   fillOpacity: 0.20,
+        //   strokeColor: `red`,
+        //   strokeOpacity: 1,
+        //   strokeWeight: 1,
+        // }}
+        // />),
       ]);
     }
 
@@ -179,10 +181,12 @@ export default class CreateClues extends Component {
               width: `100vw`
             },
           }}
-          defaultZoom={15}
+          defaultZoom={18}
+          center={center}
           onBoundsChanged={::this.handleBoundsChanged}
           ref="map"
         >
+          {contents}
           <SearchBox
             bounds={this.state.bounds}
             controlPosition={google.maps.ControlPosition.TOP_LEFT}
