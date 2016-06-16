@@ -5,5 +5,6 @@ export CreateHunt from './CreateHunt'
 export CreateClues from './CreateClues'
 export InviteUsers from './InviteUsers'
 export ReviewHunt from './ReviewHunt'
+export UserHunt from './UserHunt'
 
 var React = require('react')
