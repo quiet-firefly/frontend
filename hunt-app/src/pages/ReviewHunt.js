@@ -52,11 +52,7 @@ export default class ReviewHunt extends React.Component {
   render() {
     return (
       <div className="content">
-      <nav>
-        <div className="nav-wrapper">
-          <p className="brand-logo center">Review Your Hunt</p>
-        </div>
-      </nav>
+        <h2> Review Your Hunt </h2>
         <Row>
           <Col l={3} m={4} s={12}>
             <div className="card-panel teal lighten-2 waves-effect waves-light btn-large center-align" onClick={this.getGeneral.bind(this)} >General Information</div>
