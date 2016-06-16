@@ -1,10 +1,20 @@
 import { default as React, Component } from "react";
-import { GoogleMap, Marker, SearchBox } from "react-google-maps";
+import { GoogleMap, Marker, SearchBox, InfoWindow, Circle } from "react-google-maps";
 import DocumentTitle from 'react-document-title';
 import {Button, Icon, Row, Input} from 'react-materialize';
 import { Link } from 'react-router';
+import { default as canUseDOM,} from "can-use-dom";
+import { default as raf } from "raf";
 
 // !!Need to retrieve Hunt ID and then update Hunt ID with clue data upon completion of form
+
+const geolocation = (
+  canUseDOM && navigator.geolocation || {
+    getCurrentPosition: (success, failure) => {
+      failure(`Your browser doesn't support geolocation.`);
+    },
+  }
+);
 
 export default class CreateClues extends Component {
   static inputStyle = {
@@ -32,6 +42,7 @@ export default class CreateClues extends Component {
     bounds: null,
     center: CreateClues.mapCenter,
     markers: [],
+    radius: 6000,
   }
 
   handleBoundsChanged() {
@@ -54,10 +65,6 @@ export default class CreateClues extends Component {
        markers.push({
          position: place.geometry.location,
        });
-       console.log("Lat: " + place.geometry.location.lat());
-       console.log("Lng: " + place.geometry.location.lng());
-       console.log("Name: " + place.name);
-       console.log(place);
      });
 
      this.setState({
@@ -65,12 +72,28 @@ export default class CreateClues extends Component {
      });
      boundLatLow = this.refs.map.getBounds().H.H;
      boundLatHigh = this.refs.map.getBounds().H.j;
-     console.log("Low: " + boundLatLow);
-     console.log("High: " + boundLatHigh);
      boundLngLow = this.refs.map.getBounds().j.j;
      boundLngHigh = this.refs.map.getBounds().j.H;
-     console.log("Low: " + boundLngLow);
-     console.log("High: " + boundLngHigh);
+     console.log(boundLatLow);
+
+     const tick = () => {
+       this.setState({ radius: Math.max(this.state.radius - 20, 0) });
+
+       if (this.state.radius > 200) {
+         raf(tick);
+       }
+     };
+     raf(tick);
+     (reason) => {
+       this.setState({
+         center: {
+           lat: 60,
+           lng: 105,
+         },
+         content: `Error: The Geolocation service failed (${ reason }).`,
+       });
+     }
+
 
      // Set markers; set map center to first search result
      const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
@@ -83,6 +106,8 @@ export default class CreateClues extends Component {
 
    addClue(e) {
      e.preventDefault();
+     console.log(this.state.center.lat());
+     console.log(this.state.center.lng());
      $.ajax({
        type: 'POST',
        url: '/api/clues',
@@ -97,6 +122,23 @@ export default class CreateClues extends Component {
    };
 
   render() {
+    const { center, content, radius } = this.state;
+    let contents = [];
+
+    if (center) {
+      contents = contents.concat([
+        (<InfoWindow key="info" position={center} content={content} />),
+        (<Circle key="circle" center={center} radius={radius} options={{
+          fillColor: `red`,
+          fillOpacity: 0.20,
+          strokeColor: `red`,
+          strokeOpacity: 1,
+          strokeWeight: 1,
+        }}
+        />),
+      ]);
+    }
+
     return (
       <div>
         <div className={"row"}>
@@ -118,7 +160,7 @@ export default class CreateClues extends Component {
                 </label>
               </div>
               <div className={"row"}>
-                <button className={"btn invite-button"} onClick={this.addClue}> Add Another Clue </button>
+                <button className={"btn invite-button"} onClick={this.addClue.bind(this)}> Add Another Clue </button>
                 <span> or </span>
                 <Link to='/reviewhunt'>
                   <button className={"btn invite-button"}> Return to Hunt Page </button>

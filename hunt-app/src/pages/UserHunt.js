@@ -1,9 +1,10 @@
 import { default as React, Component } from "react";
 import { GoogleMap, Marker, SearchBox, Circle, InfoWindow } from "react-google-maps";
 import DocumentTitle from 'react-document-title';
-import {Button, Icon, Row, Input} from 'react-materialize';
+import {Button, Icon, Row, Input, Col, Preloader} from 'react-materialize';
 import { default as canUseDOM,} from "can-use-dom";
 import { default as raf } from "raf";
+import ToggleDisplay from 'react-toggle-display';
 
 const geolocation = (
   canUseDOM && navigator.geolocation || {
@@ -36,19 +37,26 @@ export default class UserHunt extends Component {
     content: null,
     radius: 60,
     markers: [],
+    hide: false,
   }
 
   checkIfHere() {
-    console.log("Clicked");
-  };
+    var currentLat = this.state.center.lat();;
+    var currentLng = this.state.center.lng();
+    var boundLatLow = currentLat + .00040;
+    var boundLatHigh = currentLat - .00040;
+    var boundLngLow = currentLng - .00040;
+    var boundLngHigh = currentLng + .00040;
+
+    if (boundLatLow <= currentLat <= boundLatHigh && boundLngLow <= currentLng && currentLng <= boundLngHigh) {
+      console.log("true");
+    }
+    else {
+      console.log("false");
+    }
+  }
 
   componentDidMount() {
-    var currentLat;
-    var currentLng;
-    var boundLatLow;
-    var boundLatHigh;
-    var boundLngLow;
-    var boundLngHigh;
     geolocation.getCurrentPosition((position) => {
       this.setState({
         center: {
@@ -58,30 +66,10 @@ export default class UserHunt extends Component {
         content: `Your Current Location`,
       });
 
-      currentLat = position.coords.latitude;
-      currentLng = position.coords.longitude;
-      console.log("Current Lat: " + currentLat);
-      console.log("Current Lng: " + currentLng);
-
       this.setState({
         bounds: this.refs.map.getBounds(),
         center: this.refs.map.getCenter(),
       });
-      boundLatLow = this.refs.map.getBounds().H.H;
-      boundLatHigh = this.refs.map.getBounds().H.j;
-      console.log("Low: " + boundLatLow);
-      console.log("High: " + boundLatHigh);
-      boundLngLow = this.refs.map.getBounds().j.j;
-      boundLngHigh = this.refs.map.getBounds().j.H;
-      console.log("Low: " + boundLngLow);
-      console.log("High: " + boundLngHigh);
-
-      if (boundLatLow <= currentLat <= boundLatHigh && boundLngLow <= currentLng && currentLng <= boundLngHigh) {
-        console.log("true");
-      }
-      else {
-        console.log("false");
-      }
 
       const tick = () => {
         this.setState({ radius: Math.max(this.state.radius - 20, 0) });
@@ -91,6 +79,7 @@ export default class UserHunt extends Component {
         }
       };
       raf(tick);
+      console.log("Map loaded");
     }, (reason) => {
       this.setState({
         center: {
@@ -107,9 +96,6 @@ export default class UserHunt extends Component {
      bounds: this.refs.map.getBounds(),
      center: this.refs.map.getCenter(),
    });
-  //  console.log(this.refs.map.getBounds().H);
-  //  console.log(this.refs.map.getBounds().j);
-  //  boundLat = this.refs.map.getBounds().H.H;
   }
 
   handlePlacesChanged() {
@@ -138,51 +124,53 @@ export default class UserHunt extends Component {
   render() {
     const { center, content, radius } = this.state;
     let contents = [];
-
+    //
     if (center) {
       contents = contents.concat([
         (<InfoWindow key="info" position={center} content={content} />),
-        (<Circle key="circle" center={center} radius={radius} options={{
-          fillColor: `red`,
-          fillOpacity: 0.20,
-          strokeColor: `red`,
-          strokeOpacity: 1,
-          strokeWeight: 1,
-        }}
-        />),
+        // (<Circle key="circle" center={center} radius={radius} options={{
+        //   fillColor: `red`,
+        //   fillOpacity: 0.20,
+        //   strokeColor: `red`,
+        //   strokeOpacity: 1,
+        //   strokeWeight: 1,
+        // }}
+        // />),
       ]);
     }
 
     return (
       <div>
-        <Button waves='light'>Check if here</Button>
-        <GoogleMap
-          center={this.state.center}
-          containerProps={{
-            ...this.props,
-            style: {
-              height: `70vh`,
-              width: `100vw`
-            },
-          }}
-          defaultZoom={15}
-          center={center}
-          onBoundsChanged={::this.handleBoundsChanged}
-          ref="map"
-        >
-          {contents}
-          <SearchBox
-            bounds={this.state.bounds}
-            controlPosition={google.maps.ControlPosition.TOP_LEFT}
-            onPlacesChanged={::this.handlePlacesChanged}
-            ref="searchBox"
-            placeholder="Enter Location"
-            style={UserHunt.inputStyle}
-          />
-          {this.state.markers.map((marker, index) => (
-            <Marker position={marker.position} key={index} />
-          ))}
-        </GoogleMap>
+        <Button waves='light' onClick={this.checkIfHere.bind(this)}>Check if here</Button>
+        <ToggleDisplay show={this.state.hide}>
+          <GoogleMap
+            center={this.state.center}
+            containerProps={{
+              ...this.props,
+              style: {
+                height: `70vh`,
+                width: `100vw`
+              },
+            }}
+            defaultZoom={18}
+            center={center}
+            onBoundsChanged={::this.handleBoundsChanged}
+            ref="map"
+          >
+            {contents}
+            <SearchBox
+              bounds={this.state.bounds}
+              controlPosition={google.maps.ControlPosition.TOP_LEFT}
+              onPlacesChanged={::this.handlePlacesChanged}
+              ref="searchBox"
+              placeholder="Enter Location"
+              style={UserHunt.inputStyle}
+            />
+            {this.state.markers.map((marker, index) => (
+              <Marker position={marker.position} key={index} />
+            ))}
+          </GoogleMap>
+        </ToggleDisplay>
       </div>
     );
   }
