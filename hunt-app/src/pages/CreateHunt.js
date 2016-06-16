@@ -20,7 +20,7 @@ export default class CreateHunt extends React.Component {
           <h2> Create a Scavenger Hunt </h2>
         </div>
         <Card>
-          <h3>General Information</h3>
+          <h3> General Information </h3>
           <form id="huntForm" onSubmit={this.onSubmit} method="post">
             <Col m={6} s={12}>
               <label> Hunt Name
