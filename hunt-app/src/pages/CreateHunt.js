@@ -17,28 +17,33 @@ export default class CreateHunt extends React.Component {
     return (
       <Row>
         <div>
-          <h3>Create a Scavenger Hunt</h3>
+          <h3> Create a Scavenger Hunt </h3>
         </div>
         <Card>
+          <h3>General Information</h3>
           <form id="huntForm" onSubmit={this.onSubmit} method="post">
-            <label> Hunt Name
-              <input type="text" name="hunt_name" />
-            </label>
-            <label> Hunt Date
-              <input type="date" name="date"/>
-            </label>
-            <label> Start Time
-              <input type="time" name="start_time"/>
-            </label>
-            <label> End Time
-              <input type="time" name="end_time"/>
-            </label>
-            <label> Location
-              <input type="text" name="location"/>
-            </label>
-            <label> Description
-              <input type="text" name="description"/>
-            </label>
+            <Col m={6} s={12}>
+              <label> Hunt Name
+                <input type="text" name="hunt_name" />
+              </label>
+              <label> Start Time
+                <input type="time" name="start_time"/>
+              </label>
+              <label> Location
+                <input type="text" name="location"/>
+              </label>
+            </Col>
+            <Col m={6} s={12}>
+              <label> Hunt Date
+                <input type="date" name="date"/>
+              </label>
+              <label> End Time
+                <input type="time" name="end_time"/>
+              </label>
+              <label> Description
+                <input type="text" name="description"/>
+              </label>
+            </Col>
             <button> Submit </button>
           </form>
         </Card>

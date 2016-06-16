@@ -9,7 +9,7 @@ export default class LoginPage extends React.Component {
       <Row>
         <Col m={6} s={12} class="auth-form">
           <Card>
-            <h3>Login</h3>
+            <h3> Login </h3>
             <hr />
             <form id="signin-form">
               <Input m={12} label="First Name" />
@@ -23,7 +23,7 @@ export default class LoginPage extends React.Component {
         </Col>
         <Col m={6} s={12} class="auth-form">
           <Card>
-            <h3>Sign Up</h3>
+            <h3> Sign Up </h3>
             <hr />
             <form id="signup-form">
               <Input m={12} label="First Name" />
