@@ -3,12 +3,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var clueSchema = new Schema ({
-  clue_id: Number,
   hunt_id: Number,
   clue: String,
   location: String,
-  latitude: Number,
-  longitude: Number
+  placeLat: Number,
+  placeLng: Number,
+  boundLatHigh: Number,
+  boundLatLow: Number,
+  boundLngHigh: Number,
+  boundLngLow: Number
 }, {collection: 'clues'});
 
 mongoose.model('Clue', clueSchema);

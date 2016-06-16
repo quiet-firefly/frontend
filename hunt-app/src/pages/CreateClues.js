@@ -55,7 +55,9 @@ export default class CreateClues extends Component {
          position: place.geometry.location,
        });
        console.log("Lat: " + place.geometry.location.lat());
+       var placeLat = place.geometry.location.lat();
        console.log("Lng: " + place.geometry.location.lng());
+       var placeLng = place.geometry.location.lng();
        console.log("Name: " + place.name);
        console.log(place);
      });
@@ -83,13 +85,35 @@ export default class CreateClues extends Component {
 
    addClue(e) {
      e.preventDefault();
+     console.log(this.state.bounds.H.H);
+     var boundLatLow = this.state.bounds.H.H;
+     var boundLatHigh = this.state.bounds.H.j;
+     var boundLngLow = this.state.bounds.j.j;
+     var boundLngHigh = this.state.bounds.j.H;
+     var placeLat = this.state.center.lat();
+     var placeLng = this.state.center.lng();
+     this.state.markers = [];
+     var location = $('#clueForm').find('input[name="location"]').val();
+     var clue = $('#clueForm').find('input[name="clue"]').val();
+     var hunt_id = $('#clueForm').find('input[name="hunt_id"]').val();
      $.ajax({
        type: 'POST',
        url: '/api/clues',
-       data: $('#clueForm').serialize()
+       data: {
+         clue: clue,
+         hunt_id: hunt_id,
+         location: location,
+         boundLatLow: boundLatLow,
+         boundLatHigh: boundLatHigh,
+         boundLngLow: boundLngLow,
+         boundLngHigh: boundLngHigh,
+         placeLat: placeLat,
+         placeLng: placeLng
+       }
      });
      $('#clue').val('');
      $('#location').val('');
+     $('#searchBox').val('');
    }
 
    returnToHunt(e) {
@@ -97,6 +121,7 @@ export default class CreateClues extends Component {
    };
 
   render() {
+    console.log(this.state.center);
     return (
       <div>
         <div className={"row"}>
@@ -118,7 +143,7 @@ export default class CreateClues extends Component {
                 </label>
               </div>
               <div className={"row"}>
-                <button className={"btn invite-button"} onClick={this.addClue}> Add Another Clue </button>
+                <button className={"btn invite-button"} onClick={this.addClue.bind(this)}> Add Clue </button>
                 <span> or </span>
                 <Link to='/reviewhunt'>
                   <button className={"btn invite-button"}> Return to Hunt Page </button>

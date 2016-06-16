@@ -78,11 +78,23 @@ app.post('/api/clues', function(req, res, next) {
   var hunt_id = req.body.hunt_id;
   var clue = req.body.clue;
   var location = req.body.location;
+  var boundLngHigh = req.body.boundLngHigh;
+  var boundLngLow = req.body.boundLngLow;
+  var boundLatHigh = req.body.boundLatHigh;
+  var boundLatLow = req.body.boundLatLow;
+  var placeLat = req.body.placeLat;
+  var placeLng = req.body.placeLng;
 
   db.collections.clues.insert({
     hunt_id: hunt_id,
     clue: clue,
-    location: location
+    location: location,
+    boundLngHigh: boundLngHigh,
+    boundLngLow: boundLngLow,
+    boundLatHigh: boundLatHigh,
+    boundLatLow: boundLatLow,
+    placeLat: placeLat,
+    placeLng: placeLng
   })
 });
 
