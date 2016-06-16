@@ -52,6 +52,9 @@
   }
 }
 
+.card {
+  overflow: hidden;
+}
 
 .cardcolor {
   background: #FCFBCB;
