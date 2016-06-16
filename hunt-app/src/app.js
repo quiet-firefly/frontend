@@ -13,7 +13,7 @@ ReactDOM.render(
     <LoginRoute path='/login' component={LoginPage} />
       <Route path='/createhunt' component={CreateHunt} />
       <Route path='/reviewhunt' component={ReviewHunt} />
-      <HomeRoute path='/profile' component={ProfilePage} />
+      <Route path='/profile' component={ProfilePage} />
       <Route path='/register' component={RegistrationPage} />
       <Route path='/createclues' component={CreateClues} />
       <Route path='/userhunt' component={UserHunt} />

@@ -6,6 +6,9 @@ var webpack = require('webpack');
 var config = require('./webpack.config');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
+var morgan = require('morgan');
 
 var app = express();
 var compiler = webpack(config);
@@ -78,11 +81,23 @@ app.post('/api/clues', function(req, res, next) {
   var hunt_id = req.body.hunt_id;
   var clue = req.body.clue;
   var location = req.body.location;
+  var boundLngHigh = req.body.boundLngHigh;
+  var boundLngLow = req.body.boundLngLow;
+  var boundLatHigh = req.body.boundLatHigh;
+  var boundLatLow = req.body.boundLatLow;
+  var placeLat = req.body.placeLat;
+  var placeLng = req.body.placeLng;
 
   db.collections.clues.insert({
     hunt_id: hunt_id,
     clue: clue,
-    location: location
+    location: location,
+    boundLngHigh: boundLngHigh,
+    boundLngLow: boundLngLow,
+    boundLatHigh: boundLatHigh,
+    boundLatLow: boundLatLow,
+    placeLat: placeLat,
+    placeLng: placeLng
   })
 });
 

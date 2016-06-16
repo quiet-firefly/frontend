@@ -9,7 +9,7 @@ export default class ProfilePage extends React.Component {
       <div>
           <div>
             <div>
-              <h3>My Profile</h3>
+              <h2>My Profile</h2>
               <hr />
             </div>
           </div>

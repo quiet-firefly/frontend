@@ -81,22 +81,37 @@ export default class CreateClues extends Component {
    });
   }
 
-  handlePlacesChanged() {
-    const places = this.refs.searchBox.getPlaces();
-    const markers = [];
+   handlePlacesChanged() {
+     const places = this.refs.searchBox.getPlaces();
+     const markers = [];
 
-    // Add a marker for each place returned from search bar
-    places.forEach(function (place) {
-      markers.push({
-        position: place.geometry.location,
-      });
-      console.log("Lat: " + place.geometry.location.lat());
-      console.log("Lng: " + place.geometry.location.lng());
-      console.log("Name: " + place.name);
-    });
 
-    // Set markers; set map center to first search result
-    const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
+     // Add a marker for each place returned from search bar
+     places.forEach(function (place) {
+       markers.push({
+         position: place.geometry.location,
+       });
+
+       console.log("Lat: " + place.geometry.location.lat());
+       var placeLat = place.geometry.location.lat();
+       console.log("Lng: " + place.geometry.location.lng());
+       var placeLng = place.geometry.location.lng();
+       console.log("Name: " + place.name);
+       console.log(place);
+
+     });
+
+     this.setState({
+       bounds: this.refs.map.getBounds(),
+     });
+
+     const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
+
+     this.setState({
+       center: mapCenter,
+       markers,
+     });
+   }
 
     this.setState({
       center: mapCenter,
@@ -110,13 +125,32 @@ export default class CreateClues extends Component {
      var boundLatHigh = this.state.center.lat() - .00040;
      var boundLngLow = this.state.center.lng() - .00040;
      var boundLngHigh = this.state.center.lng() + .00040;
+     var placeLat = this.state.center.lat();
+     var placeLng = this.state.center.lng();
+     this.state.markers = [];
+     var location = $('#clueForm').find('input[name="location"]').val();
+     var clue = $('#clueForm').find('input[name="clue"]').val();
+     var hunt_id = $('#clueForm').find('input[name="hunt_id"]').val();
+
      $.ajax({
        type: 'POST',
        url: '/api/clues',
-       data: $('#clueForm').serialize()
+       data: {
+         clue: clue,
+         hunt_id: hunt_id,
+         location: location,
+         boundLatLow: boundLatLow,
+         boundLatHigh: boundLatHigh,
+         boundLngLow: boundLngLow,
+         boundLngHigh: boundLngHigh,
+         placeLat: placeLat,
+         placeLng: placeLng
+       }
      });
      $('#clue').val('');
      $('#location').val('');
+     $('#searchBox').val('');
+
    }
 
    returnToHunt(e) {
@@ -124,23 +158,7 @@ export default class CreateClues extends Component {
    };
 
   render() {
-    const { center, content, radius } = this.state;
-    let contents = [];
-
-    if (center) {
-      contents = contents.concat([
-        (<InfoWindow key="info" position={center} content={content} />),
-        // (<Circle key="circle" center={center} radius={radius} options={{
-        //   fillColor: `red`,
-        //   fillOpacity: 0.20,
-        //   strokeColor: `red`,
-        //   strokeOpacity: 1,
-        //   strokeWeight: 1,
-        // }}
-        // />),
-      ]);
-    }
-
+    console.log(this.state.center);
     return (
       <div>
         <div className={"row"}>
@@ -158,11 +176,11 @@ export default class CreateClues extends Component {
                   <input id="clue" type="text" name="clue"/>
                 </label>
                 <label className={"col m4 offset-m1"}> Answer/Location
-                  <input id="location" type="text" name="location"/>
+                  <input id="location" type="text" name="location" />
                 </label>
               </div>
               <div className={"row"}>
-                <button className={"btn invite-button"} onClick={this.addClue.bind(this)}> Add Another Clue </button>
+                <button className={"btn invite-button"} onClick={this.addClue.bind(this)}> Add Clue </button>
                 <span> or </span>
                 <Link to='/reviewhunt'>
                   <button className={"btn invite-button"}> Return to Hunt Page </button>
