@@ -6,6 +6,9 @@ var webpack = require('webpack');
 var config = require('./webpack.config');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
+var morgan = require('morgan');
 
 var app = express();
 var compiler = webpack(config);

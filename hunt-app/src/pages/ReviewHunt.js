@@ -11,6 +11,17 @@ export default class ReviewHunt extends React.Component {
     name: ""
   };
 
+  componentDidMount(){
+    $.ajax({
+      type: 'GET',
+      url: '/api/hunts',
+      datatype: 'jsonp',
+      success: data => {
+        this.setState({data: data, page: 'hunts', name: data[0].hunt_name});
+      }
+    })
+  };
+
   getGeneral (e) {
     e.preventDefault();
     $.ajax({
@@ -97,7 +108,7 @@ export default class ReviewHunt extends React.Component {
               <Then>
                 <Card className='large'
                   header={<CardTitle image='/css/party2.jpeg'>{this.state.name}</CardTitle>} // insert map picture here
-                  actions={[<a href='#'>Edit General Info</a>]}>
+                  actions={[<a href='#'>Edit Invites</a>]}>
                   <div>Date: {this.state.data[0].date} </div>
                   <div>Starting Time: {this.state.data[0].start_time} </div>
                   <div>Ending Time: {this.state.data[0].end_time} </div>
