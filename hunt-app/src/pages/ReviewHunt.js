@@ -64,38 +64,23 @@ export default class ReviewHunt extends React.Component {
             <div className="card-panel teal lighten-2 waves-effect waves-light btn-large center-align" onClick={this.getInvites.bind(this)}>Invites</div>
           </Col>
           <If condition={ this.state.page === 'hunts' }>
-          <Then>
-            <Col l={9} m={8} s={12}>
-            <Card className='large'
-              header={<CardTitle image='/css/party2.jpeg'>{this.state.data[0].hunt_name}</CardTitle>}
-              actions={[<a href='#'>Edit General Info</a>]}>
-              <div>Date: {this.state.data[0].date} </div>
-              <div>Starting Time: {this.state.data[0].start_time} </div>
-              <div>Ending Time: {this.state.data[0].end_time} </div>
-              <div>General Location: {this.state.data[0].location} </div>
-              <div>Description: {this.state.data[0].description} </div>
-            </Card>
-            </Col>
-              </Then>
-            </If>
-            <If condition={ this.state.page === 'clues' }>
             <Then>
               <Col l={9} m={8} s={12}>
-              <Card className='large'
-                header={<CardTitle image='/css/party2.jpeg'>{this.state.name}</CardTitle>} // insert map picture here
-                actions={[<a href='#'>Edit General Info</a>]}>
-                <div>Date: {this.state.data[0].date} </div>
-                <div>Starting Time: {this.state.data[0].start_time} </div>
-                <div>Ending Time: {this.state.data[0].end_time} </div>
-                <div>General Location: {this.state.data[0].location} </div>
-                <div>Description: {this.state.data[0].description} </div>
-              </Card>
+                <Card className='large'
+                  header={<CardTitle image='/css/party2.jpeg'>{this.state.data[0].hunt_name}</CardTitle>}
+                  actions={[<a href='#'>Edit General Info</a>]}>
+                  <div>Date: {this.state.data[0].date} </div>
+                  <div>Starting Time: {this.state.data[0].start_time} </div>
+                  <div>Ending Time: {this.state.data[0].end_time} </div>
+                  <div>General Location: {this.state.data[0].location} </div>
+                  <div>Description: {this.state.data[0].description} </div>
+                </Card>
               </Col>
-                </Then>
-              </If>
-              <If condition={ this.state.page === 'invites' }>
-              <Then>
-                <Col l={9} m={8} s={12}>
+            </Then>
+          </If>
+          <If condition={ this.state.page === 'clues' }>
+            <Then>
+              <Col l={9} m={8} s={12}>
                 <Card className='large'
                   header={<CardTitle image='/css/party2.jpeg'>{this.state.name}</CardTitle>} // insert map picture here
                   actions={[<a href='#'>Edit General Info</a>]}>
@@ -105,10 +90,24 @@ export default class ReviewHunt extends React.Component {
                   <div>General Location: {this.state.data[0].location} </div>
                   <div>Description: {this.state.data[0].description} </div>
                 </Card>
-                </Col>
-                  </Then>
-                </If>
-
+              </Col>
+            </Then>
+              </If>
+          <If condition={ this.state.page === 'invites' }>
+            <Then>
+              <Col l={9} m={8} s={12}>
+                <Card className='large'
+                  header={<CardTitle image='/css/party2.jpeg'>{this.state.name}</CardTitle>} // insert map picture here
+                  actions={[<a href='#'>Edit General Info</a>]}>
+                  <div>Date: {this.state.data[0].date} </div>
+                  <div>Starting Time: {this.state.data[0].start_time} </div>
+                  <div>Ending Time: {this.state.data[0].end_time} </div>
+                  <div>General Location: {this.state.data[0].location} </div>
+                  <div>Description: {this.state.data[0].description} </div>
+                </Card>
+              </Col>
+            </Then>
+          </If>
         </Row>
       </div>
     );

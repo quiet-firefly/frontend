@@ -17,7 +17,7 @@ export default class CreateHunt extends React.Component {
     return (
       <Row>
         <div>
-          <h3> Create a Scavenger Hunt </h3>
+          <h2> Create a Scavenger Hunt </h2>
         </div>
         <Card>
           <h3>General Information</h3>
