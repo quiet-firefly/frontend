@@ -18,27 +18,57 @@ export default class LoginPage extends React.Component {
 
     next(null, data);
   }
-
   render() {
     return (
+      <Row className="parallax2">
+        <Form schema={modelSchema} defaultValue={modelSchema.default()}>
+          <div>
+            <label>Name</label>
+
+            <Form.Field name='name.first' placeholder='First name'/>
+            <Form.Field name='name.last' placeholder='Surname'/>
+
+            <Form.Message for={['name.first', 'name.last']}/>
+          </div>
+
+          <label>Date of Birth</label>
+          <Form.Field name='dateOfBirth'/>
+          <Form.Message for='dateOfBirth'/>
+
+          <label>Favorite Color</label>
+          <Form.Field name='colorId' type='select'>
+            <option value={null}>Select a color...</option>
+            <option value={0}>Red</option>
+            <option value={1}>Yellow</option>
+            <option value={2}>Blue</option>
+            <option value={3}>other</option>
+          </Form.Field>
+          <Form.Message for='colorId'/>
+
+        <Form.Button type='submit'>Submit</Form.Button>
+      </Form>
+
       <Row>
-        <div>
-          <h2> Account Access </h2>
-        </div>
+        <Row>
+          <div>
+            <h2> Start Your Adventure Here! </h2>
+          </div>
+        </Row>
         <Row>
           <Col m={6} s={12} class="auth-form">
             <Card>
               <h3> Login </h3>
-              <hr />
+              <hr/>
               <form id="signin-form">
-
                 <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
 
                 <Input m={12} label="First Name" />
                 <Input m={12} type="email" label="Email" />
                 <Input m={12} type="password" label="Password" />
                 <div>
-                  <Button node='a' waves='light'><Icon right>file_cloud</Icon>login button</Button>
+                  <Link to="/createhunt">
+                    <Button node='a' waves='light'><Icon right>perm_identity</Icon>login button</Button>
+                  </Link>
                 </div>
               </form>
             </Card>
@@ -46,13 +76,15 @@ export default class LoginPage extends React.Component {
           <Col m={6} s={12} class="auth-form">
             <Card>
               <h3> Sign Up </h3>
-              <hr />
+              <hr/>
               <form id="signup-form">
                 <Input m={12} type="text" label="First Name" />
                 <Input m={12} type="email" label="Email" />
                 <Input m={12} type="password" label="Password" />
                 <div>
-                  <Button node='a' waves='light' type="submit"><Icon right>file_cloud</Icon>Sign Up button</Button>
+                  <Link to="/createhunt">
+                    <Button node='a' waves='light'><Icon right>file_cloud</Icon>Sign Up button</Button>
+                  </Link>
                 </div>
               </form>
             </Card>

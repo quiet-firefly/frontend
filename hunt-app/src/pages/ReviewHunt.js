@@ -8,7 +8,7 @@ export default class ReviewHunt extends React.Component {
   state = {
     data: [{}],
     page: "",
-    name: ""
+    name: "",
   };
 
   componentDidMount(){
@@ -17,7 +17,7 @@ export default class ReviewHunt extends React.Component {
       url: '/api/hunts/',
       datatype: 'jsonp',
       success: data => {
-        this.setState({data: data, page: 'hunts', name: data[0].hunt_name});
+        this.setState({data: data, page: 'hunts', name: data[data.length-1].hunt_name});
       }
     })
   };
@@ -29,7 +29,7 @@ export default class ReviewHunt extends React.Component {
       url: '/api/hunts',
       datatype: 'jsonp',
       success: data => {
-        this.setState({data: data, page: 'hunts', name: data[0].hunt_name});
+        this.setState({data: data, page: 'hunts', name: data[data.length -1 ].hunt_name});
       }
     })
   };
@@ -57,13 +57,13 @@ export default class ReviewHunt extends React.Component {
   };
 
   render() {
+
     return (
       <Row>
         <div>
           <h2> Review Your Scavenger Hunt </h2>
         </div>
         <Card>
-          <h3> Click on cards to review your Scavenger Hunt </h3>
           <h5> Click Submit to send invites, or Edit to alter details </h5>
           <Col m={4} s={12}>
             <div className="review-card card-panel teal lighten-2 waves-effect waves-light btn-large center-align" onClick={this.getGeneral.bind(this)} >General Information</div>
@@ -78,26 +78,22 @@ export default class ReviewHunt extends React.Component {
             <If condition={ this.state.page === 'hunts' }>
               <Then>
                 <Card className='large'
-                  header={<CardTitle image='/css/party2.jpeg'>{this.state.data[0].hunt_name}</CardTitle>}
+                  header={<CardTitle image='/css/party2.jpeg'>{this.state.data[data.length - 1].hunt_name}</CardTitle>}
                   actions={[<a href='#'>Edit General Info</a>]}>
-                  <div>Date: {this.state.data[0].date} </div>
-                  <div>Starting Time: {this.state.data[0].start_time} </div>
-                  <div>Ending Time: {this.state.data[0].end_time} </div>
-                  <div>General Location: {this.state.data[0].location} </div>
-                  <div>Description: {this.state.data[0].description} </div>
+                  <div>Date: {this.state.data[data.length - 1].date} </div>
+                  <div>Starting Time: {this.state.data[data.length - 1].start_time} </div>
+                  <div>Ending Time: {this.state.data[data.length - 1].end_time} </div>
+                  <div>General Location: {this.state.data[data.length - 1].location} </div>
+                  <div>Description: {this.state.data[data.length - 1].description} </div>
                 </Card>
               </Then>
             </If>
             <If condition={ this.state.page === 'clues' }>
               <Then>
                 <Card className='large'
-                  header={<CardTitle image='/css/party2.jpeg'>{this.state.name}</CardTitle>} // insert map picture here
-                  actions={[<a href='#'>Edit General Info</a>]}>
-                  <div>Date: {this.state.data[0].date} </div>
-                  <div>Starting Time: {this.state.data[0].start_time} </div>
-                  <div>Ending Time: {this.state.data[0].end_time} </div>
-                  <div>General Location: {this.state.data[0].location} </div>
-                  <div>Description: {this.state.data[0].description} </div>
+                  header={<CardTitle image='/css/yourmap.png'>{this.state.name}</CardTitle>} // insert map picture here
+                  actions={[<a href='#'>Edit Clues and Locations</a>]}>
+
                 </Card>
               </Then>
             </If>
@@ -106,11 +102,11 @@ export default class ReviewHunt extends React.Component {
                 <Card className='large'
                   header={<CardTitle image='/css/party2.jpeg'>{this.state.name}</CardTitle>} // insert map picture here
                   actions={[<a href='#'>Edit Invites</a>]}>
-                  <div>Date: {this.state.data[0].date} </div>
-                  <div>Starting Time: {this.state.data[0].start_time} </div>
-                  <div>Ending Time: {this.state.data[0].end_time} </div>
-                  <div>General Location: {this.state.data[0].location} </div>
-                  <div>Description: {this.state.data[0].description} </div>
+                  <div>Date: {this.state.data[data.length - 1].date} </div>
+                  <div>Starting Time: {this.state.data[data.length - 1].start_time} </div>
+                  <div>Ending Time: {this.state.data[data.length - 1].end_time} </div>
+                  <div>General Location: {this.state.data[data.length - 1].location} </div>
+                  <div>Description: {this.state.data[data.length - 1].description} </div>
                 </Card>
               </Then>
             </If>

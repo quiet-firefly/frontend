@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   border: 0;
+  font-family: 'Architects Daughter', cursive;
 }
 .navbar {
   background: black;
@@ -11,10 +12,9 @@
 .banner {
   text-align: center;
   font-size: 525%;
-  font-family: sans-serif;
+  font-family: 'Architects Daughter', cursive;
   color: black;
   font-weight: bold;
-  text-decoration: underline;
   text-transform: uppercase;
   letter-spacing: 3%;
   margin: 15% 0;
@@ -31,13 +31,26 @@
   width: 50%;
 }*/
 
+
 /*--- START PARALLAX general ---*/
 .parallax {
-  background: url('/css/bkg2.png');
+  background: url('/css/group1.jpg');
+  background-size: 100%;
+}
+.parallax2 {
+  background: url('/css/carlady.jpeg');
+  background-size: 100%;
+}
+.parallax3 {
+  background: url('/css/party13.jpg');
+  background-size: 100%;
+}
+.parallax4 {
+  background: url('/css/ladies.jpg');
   background-size: 100%;
 }
 .parallax-container {
-  height: 2900px;
+  height: 600px;
 }
 
 @media only screen and (max-width : 992px) {
@@ -143,7 +156,8 @@
 
 /*--- End Invite Users Styles ---*/
 
-/*--- Begin Create Clues Styles ---*/
+
+/*--- Begin Hunt/Clues/Users Styles ---*/
 
 .clue-container {
   margin-left: 1em;
@@ -157,4 +171,58 @@
 .move-down {
   margin-top: 1em;
   display: inline;
+}
+
+.clue-header {
+  font-style: italic;
+  font-weight: bold;
+  font-decoration: underline;
+  font-size: 1.4em;
+}
+
+#cluebox {
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#answerbox {
+  font-style: italic;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+}
+
+#hunt-label {
+  font-size: 1.2em;
+}
+
+input {
+  color: black;
+  font-weight: bold;
+}
+
+.invited {
+  font-size: 14px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.labelsize {
+  font-size: 1.4em;
+  color: #26A69A;
+  font-weight: bold;
+}
+
+.invite-header {
+  font-size: 2em;
+  font-weight: bold;
+  color: #26A69A;
+}
+
+.profile-label {
+  color: #26A69A;
+  font-size: 1.6em;
+}
+
+.profile-info {
+  font-size: 1.6em;
 }
