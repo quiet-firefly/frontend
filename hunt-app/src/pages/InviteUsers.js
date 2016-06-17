@@ -43,7 +43,7 @@ export default class InviteUsers extends React.Component {
                 <div>
                   <button className={"btn invite-button"} onClick={this.inviteUser}> Invite User </button>
                   <span> </span>
-                    <button onClick={this.props.bar} className={"btn invite-button"}> Proceed to Hunt Page </button>
+                    <button onClick={this.props.bar} className={"btn invite-button"}> Review your Adventure! </button>
                 </div>
               </form>
             </Card>
