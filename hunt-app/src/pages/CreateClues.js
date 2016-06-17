@@ -3,6 +3,7 @@ import { GoogleMap, Marker, SearchBox } from "react-google-maps";
 import DocumentTitle from 'react-document-title';
 import {Button, Icon, Row, Input} from 'react-materialize';
 import { Link } from 'react-router';
+import { If, Then, Else } from 'react-if';
 
 // !!Need to retrieve Hunt ID and then update Hunt ID with clue data upon completion of form
 
@@ -105,14 +106,12 @@ export default class CreateClues extends Component {
      $('#location').val('');
      $('#searchBox').val('');
 
+
    }
 
-   returnToHunt(e) {
-     e.preventDefault();
    };
 
   render() {
-    console.log(this.state.center);
     return (
       <div>
         <div className={"row"}>
@@ -136,9 +135,7 @@ export default class CreateClues extends Component {
               <div className={"row"}>
                 <button className={"btn invite-button"} onClick={this.addClue.bind(this)}> Add Clue </button>
                 <span> or </span>
-                <Link to='/reviewhunt'>
-                  <button className={"btn invite-button"}> Return to Hunt Page </button>
-                </Link>
+                  <button className={"btn invite-button"} onClick={this.props.foo}> On to Invites </button>
               </div>
             </form>
           </div>

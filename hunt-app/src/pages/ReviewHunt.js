@@ -30,7 +30,6 @@ export default class ReviewHunt extends React.Component {
       datatype: 'jsonp',
       success: data => {
         this.setState({data: data, page: 'hunts', name: data[0].hunt_name});
-        console.log(data);
       }
     })
   };
@@ -42,7 +41,6 @@ export default class ReviewHunt extends React.Component {
       datatype: 'jsonp',
       success: data => {
         this.setState({data: data, page: 'clues'});
-        console.log(data);
       }
     })
   };
@@ -54,7 +52,6 @@ export default class ReviewHunt extends React.Component {
       datatype: 'jsonp',
       success: data => {
         this.setState({data: data, page: 'invites'});
-        console.log(data);
       }
     })
   };

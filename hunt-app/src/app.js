@@ -11,13 +11,14 @@ ReactDOM.render(
   <Router history={createHistory()}>
     <HomeRoute path='/' component={MasterPage}>
     <LoginRoute path='/login' component={LoginPage} />
-      <Route path='/createhunt' component={CreateHunt} />
-      <Route path='/reviewhunt' component={ReviewHunt} />
+      <Route path='/createhunt' component={CreateHunt}>
+        <Route path='/createclues' component={CreateClues} />
+        <Route path='/inviteusers' component={InviteUsers} />
+        <Route path='/reviewhunt' component={ReviewHunt} />
+      </Route>
       <Route path='/profile' component={ProfilePage} />
       <Route path='/register' component={RegistrationPage} />
-      <Route path='/createclues' component={CreateClues} />
       <Route path='/userhunt' component={UserHunt} />
-      <Route path='/inviteusers' component={InviteUsers} />
     </HomeRoute>
   </Router>,
   document.getElementById('app-container')
