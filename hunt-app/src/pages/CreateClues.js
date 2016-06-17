@@ -5,7 +5,7 @@ import {Button, Icon, Row, Input, } from 'react-materialize';
 import { default as canUseDOM,} from "can-use-dom";
 import { default as raf } from "raf";
 import { Link } from 'react-router';
-import ToggleDisplay from 'react-toggle-display';
+import { If, Then, Else } from 'react-if';
 
 const geolocation = (
   canUseDOM && navigator.geolocation || {
@@ -144,15 +144,9 @@ export default class CreateClues extends Component {
      $('#clue').val('');
      $('#location').val('');
      $('#searchBox').val('');
-
-   }
-
-   returnToHunt(e) {
-     e.preventDefault();
    };
 
-  render() {
-    console.log(this.state.center);
+  render () {
     return (
       <div>
         <div className={"row"}>
@@ -176,9 +170,7 @@ export default class CreateClues extends Component {
               <div className={"row"}>
                 <button className={"btn invite-button"} onClick={this.addClue.bind(this)}> Add Clue </button>
                 <span> or </span>
-                <Link to='/reviewhunt'>
-                  <button className={"btn invite-button"}> Return to Hunt Page </button>
-                </Link>
+                  <button className={"btn invite-button"} onClick={this.props.foo}> On to Invites </button>
               </div>
             </form>
           </div>

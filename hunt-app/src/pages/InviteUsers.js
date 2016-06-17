@@ -17,6 +17,7 @@ export default class InviteUsers extends React.Component {
   };
 
   render () {
+    console.log('rendering');
     return (
       <Row>
         <div>
@@ -37,13 +38,10 @@ export default class InviteUsers extends React.Component {
                     <input id="rsvp_by" type="date" name="rsvp_by" />
                   </label>
                 </Col>
-
                 <div>
                   <button className={"btn invite-button"} onClick={this.inviteUser}> Invite User </button>
                   <span className={"push-down"}> or </span>
-                  <Link to='/reviewhunt'>
-                    <button className={"btn invite-button"}> Return to Hunt Page </button>
-                  </Link>
+                    <button onClick={this.props.bar} className={"btn invite-button"}> Return to Hunt Page </button>
                 </div>
               </form>
             </Card>
