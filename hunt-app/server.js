@@ -12,7 +12,6 @@ var morgan = require('morgan');
 
 var app = express();
 var compiler = webpack(config);
-var router = express.router();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -42,7 +41,7 @@ app.get('/api/hunts', function(req, res) {
   })
 });
 
-router.param('huntname', function(req, res, next, huntname) {
+app.param('huntname', function(req, res, next, huntname) {
   var query = Hunt.findOne({ hunt_name: huntname });
 
   console.log("param huntname call is working");
@@ -56,7 +55,7 @@ router.param('huntname', function(req, res, next, huntname) {
   })
 })
 
-router.get('/api/hunts/:huntname', function(req, res) {
+app.get('/api/hunts/:huntname', function(req, res) {
   console.log("this is the wildcard huntname call")
     res.json(req.hunt)
 });

@@ -34,6 +34,8 @@
     "react": "^15.1.0",
     "react-document-title": "^2.0.2",
     "react-dom": "^15.1.0",
+    "react-formal": "^0.17.9",
+    "react-formal-inputs": "^2.0.0",
     "react-google-maps": "^4.11.0",
     "react-if": "^2.1.0",
     "react-materialize": "^0.14.4",
@@ -41,7 +43,9 @@
     "react-router": "^1.0.2",
     "react-stormpath": "^1.2.1",
     "react-toggle-display": "^2.0.2",
-    "webpack": "^1.13.1"
+    "react-widgets": "^3.3.2",
+    "webpack": "^1.13.1",
+    "yup": "^0.18.3"
   },
   "devDependencies": {
     "webpack-dev-middleware": "^1.6.1"

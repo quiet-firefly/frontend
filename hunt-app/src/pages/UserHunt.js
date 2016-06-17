@@ -1,7 +1,7 @@
 import { default as React, Component } from "react";
 import { GoogleMap, Marker, SearchBox, Circle, InfoWindow } from "react-google-maps";
 import DocumentTitle from 'react-document-title';
-import {Button, Icon, Row, Input, Col, Preloader} from 'react-materialize';
+import {Button, Icon, Row, Input, Col, Preloader, Card} from 'react-materialize';
 import { default as canUseDOM,} from "can-use-dom";
 import { default as raf } from "raf";
 import ToggleDisplay from 'react-toggle-display';
@@ -36,7 +36,7 @@ export default class UserHunt extends Component {
     center: null,
     content: null,
     radius: 60,
-    
+    markers: [],
     hide: false,
   }
 
@@ -80,6 +80,9 @@ export default class UserHunt extends Component {
       };
       raf(tick);
       console.log("Map loaded");
+      var divStyle = {
+        backgroundColor: 'blue',
+      }
     }, (reason) => {
       this.setState({
         center: {
@@ -107,9 +110,6 @@ export default class UserHunt extends Component {
       markers.push({
         position: place.geometry.location,
       });
-      console.log("Lat: " + place.geometry.location.lat());
-      console.log("Lng: " + place.geometry.location.lng());
-      console.log("Name: " + place.name);
     });
 
     // Set markers; set map center to first search result
@@ -127,21 +127,49 @@ export default class UserHunt extends Component {
     //
     if (center) {
       contents = contents.concat([
-        (<InfoWindow key="info" position={center} content={content} />),
-        // (<Circle key="circle" center={center} radius={radius} options={{
-        //   fillColor: `red`,
-        //   fillOpacity: 0.20,
-        //   strokeColor: `red`,
-        //   strokeOpacity: 1,
-        //   strokeWeight: 1,
-        // }}
-        // />),
+        (<InfoWindow key="info" position={center} content={content} />)
       ]);
     }
 
     return (
       <div>
-        <Button waves='light' onClick={this.checkIfHere.bind(this)}>Check if here</Button>
+      <Card className="idgaf">
+        <div className={"row"}>
+          <input type="hidden" name="hunt_name" value="1" />
+          <label className={"col m10 labelsize"}> Clue #1
+            <input id="clue" type="text" name="clue" className="green" defaultValue="This bar used to be a luxury hotel, way back in the early 1900s!" />
+          </label>
+          <Button waves='light' onClick={this.checkIfHere.bind(this)}>Check if here</Button>
+        </div>
+        <div className={"row"}>
+          <input type="hidden" name="hunt_name" value="2"/>
+          <label className={"col m10 labelsize"}> Clue #2
+            <input id="clue" type="text" name="clue" defaultValue="Kissing the ____ stone of _____ castle gives you the “gift of gab”, and the name of the next pub!" />
+          </label>
+          <Button waves='light' onClick={this.checkIfHere.bind(this)}>Check if here</Button>
+        </div>
+        <div className={"row"}>
+          <input type="hidden" name="hunt_name" value="3"/>
+          <label className={"col m10 labelsize"}> Clue #3
+            <input id="clue" type="text" name="clue" defaultValue="A fancy word for “heavenly” will lead you to this brewing company’s bar!" />
+          </label>
+          <Button waves='light' onClick={this.checkIfHere.bind(this)}>Check if here</Button>
+        </div>
+        <div className={"row"}>
+          <input type="hidden" name="hunt_name" value="4"/>
+          <label className={"col m10 labelsize"}> Clue #4
+            <input id="clue" type="text" name="clue" defaultValue="Tucked away in an Alley, you’ll find this pub next to a Tea Room. How British." />
+          </label>
+          <Button waves='light' onClick={this.checkIfHere.bind(this)}>Check if here</Button>
+        </div>
+        <div className={"row"}>
+          <input type="hidden" name="hunt_name" value="5"/>
+          <label className={"col m10 labelsize"}> Clue #5
+            <input id="clue" type="text" name="clue" defaultValue="This type of alcoholic beverage goes by three different names. One of those names is the name of this bar." />
+          </label>
+          <Button waves='light' onClick={this.checkIfHere.bind(this)}>Check if here</Button>
+        </div>
+        </Card>
         <ToggleDisplay show={this.state.hide}>
           <GoogleMap
             center={this.state.center}
