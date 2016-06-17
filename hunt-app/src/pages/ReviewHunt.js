@@ -14,7 +14,7 @@ export default class ReviewHunt extends React.Component {
   componentDidMount(){
     $.ajax({
       type: 'GET',
-      url: '/api/hunts',
+      url: '/api/hunts/',
       datatype: 'jsonp',
       success: data => {
         this.setState({data: data, page: 'hunts', name: data[0].hunt_name});

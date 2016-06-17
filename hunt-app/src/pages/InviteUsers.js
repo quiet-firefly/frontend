@@ -17,7 +17,6 @@ export default class InviteUsers extends React.Component {
   };
 
   render () {
-    console.log('rendering');
     return (
       <Row>
         <div>
@@ -27,7 +26,7 @@ export default class InviteUsers extends React.Component {
           <Col m={6} s={12} class="auth-form">
             <Card>
               <h3> Send Invite </h3>
-              <h6 className={"invite-subhead"}> for "hunt name goes here" </h6>
+              <h6 className={"invite-subhead"}>{this.props.asshat}</h6>
               <hr />
               <form id="inviteUser">
                 <Input m={12} label="Name" id="name" type="text"/>

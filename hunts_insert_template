@@ -19,12 +19,15 @@ db.hunts.insert({
 })
 
 db.clues.insert({
-  clue_id: 1,
-  hunt_id: 1,
-  clue: "It is somewhere",
-  location: "Ballard",
-  latitude: 50,
-  longitude: 100
+hunt_id: 1,
+clue: "clue",
+location: "here",
+boundLngHigh: 12,
+boundLngLow: 2,
+boundLatHigh: 12,
+boundLatLow: 2,
+placeLat: 1,
+placeLng: 4
 })
 
 db.invites.insert({
