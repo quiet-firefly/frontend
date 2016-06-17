@@ -36,7 +36,7 @@ export default class UserHunt extends Component {
     center: null,
     content: null,
     radius: 60,
-
+    markers: [],
     hide: false,
   }
 
@@ -137,7 +137,7 @@ export default class UserHunt extends Component {
         <div className={"row"}>
           <input type="hidden" name="hunt_name" value="1" />
           <label className={"col m10 labelsize"}> Clue #1
-            <input id="clue" type="text" name="clue" className="green" defaultValue="This bar used to be a luxury hotel, way back in the early 1900s!" />
+            <input id="clue" type="text" name="clue" defaultValue="This bar used to be a luxury hotel, way back in the early 1900s!" />
           </label>
           <Button waves='light' onClick={this.checkIfHere.bind(this)}>Check if here</Button>
         </div>

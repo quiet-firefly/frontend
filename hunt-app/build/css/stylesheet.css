@@ -226,3 +226,7 @@ input {
 .profile-info {
   font-size: 1.6em;
 }
+
+a {
+  color: white;
+}
