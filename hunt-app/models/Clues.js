@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var clueSchema = new Schema ({
-  hunt_id: Number,
+  hunt_name: Number,
   clue: String,
   location: String,
   placeLat: Number,

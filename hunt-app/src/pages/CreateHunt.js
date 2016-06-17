@@ -11,11 +11,16 @@ import { If, Then, Else } from 'react-if';
 export default class CreateHunt extends React.Component {
 
   state = {
+    huntName: '',
     page: "CreateHunt"
   };
 
   onSubmit (e) {
     e.preventDefault();
+    var huntInput = $('#huntForm').find('input[name="hunt_name"]').val();
+    console.log("This is the huntInput variable:" + huntInput);
+    this.setState({huntName: huntInput});
+    console.log(this.state.huntName);
     $.ajax({
       type: 'POST',
       url: '/api/hunts',
@@ -68,7 +73,7 @@ export default class CreateHunt extends React.Component {
                 <input type="text" name="description"/>
               </label>
             </Col>
-            <button> Submit </button>
+            <button type="submit" className={"btn-large"}> Create Your Hunt! </button>
           </form>
         </Card>
         </Row>

@@ -124,14 +124,14 @@ export default class CreateClues extends Component {
      this.state.markers = [];
      var location = $('#clueForm').find('input[name="location"]').val();
      var clue = $('#clueForm').find('input[name="clue"]').val();
-     var hunt_id = $('#clueForm').find('input[name="hunt_id"]').val();
+     var hunt_name = $('#clueForm').find('input[name="hunt_name"]').val();
 
      $.ajax({
        type: 'POST',
        url: '/api/clues',
        data: {
          clue: clue,
-         hunt_id: hunt_id,
+         hunt_name: hunt_name,
          location: location,
          boundLatLow: boundLatLow,
          boundLatHigh: boundLatHigh,
@@ -144,7 +144,7 @@ export default class CreateClues extends Component {
      $('#clue').val('');
      $('#location').val('');
      $('#searchBox').val('');
-   };
+   }
 
   render () {
     return (
@@ -159,7 +159,7 @@ export default class CreateClues extends Component {
           <div className={"col m10"}>
             <form id="clueForm">
               <div className={"row"}>
-                <input type="hidden" name="hunt_id" value="1"/>
+                <input type="hidden" name="hunt_name" value="1"/>
                 <label className={"col m6 labelsize"}> Clue #1
                   <input id="clue" type="text" name="clue"/>
                 </label>

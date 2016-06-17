@@ -41,8 +41,11 @@ app.get('/api/hunts', function(req, res) {
   })
 });
 
+app.get('/api/hunts/:huntname', function(req, res) {
+  
+})
+
 app.post('/api/hunts', function(req, res, next) {
-  console.log(req.body);
   var hunt_name = req.body.hunt_name;
   var date = req.body.date;
   var start_time = req.body.start_time;
@@ -77,7 +80,7 @@ app.get('/api/clues', function(req, res) {
 });
 
 app.post('/api/clues', function(req, res, next) {
-  console.log(req.body);
+  console.log("This is logging a POST to Clues" + req.body);
   var hunt_id = req.body.hunt_id;
   var clue = req.body.clue;
   var location = req.body.location;
