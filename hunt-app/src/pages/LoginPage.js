@@ -30,17 +30,17 @@ export default class LoginPage extends React.Component {
               <h3> Sign Up </h3>
               <hr />
               <form id="signup-form">
-                <Input m={12} label="First Name" />
+                <Input m={12} type="text" label="First Name" />
                 <Input m={12} type="email" label="Email" />
                 <Input m={12} type="password" label="Password" />
                 <div>
-                  <Button node='a' waves='light'><Icon right>file_cloud</Icon>Sign Up button</Button>
+                  <Button node='a' waves='light' type="submit"><Icon right>file_cloud</Icon>Sign Up button</Button>
                 </div>
               </form>
             </Card>
           </Col>
         </Row>
-      </Row>  
+      </Row>
     );
   }
 }

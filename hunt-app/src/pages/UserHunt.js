@@ -36,7 +36,7 @@ export default class UserHunt extends Component {
     center: null,
     content: null,
     radius: 60,
-    markers: [],
+    
     hide: false,
   }
 
