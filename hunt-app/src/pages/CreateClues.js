@@ -113,12 +113,6 @@ export default class CreateClues extends Component {
      });
    }
 
-    this.setState({
-      center: mapCenter,
-      markers,
-    });
-  }
-
   addClue(e) {
      e.preventDefault();
      var boundLatLow = this.state.center.lat() + .00040;
@@ -200,11 +194,11 @@ export default class CreateClues extends Component {
             },
           }}
           defaultZoom={18}
-          center={center}
+          // center={center}
           onBoundsChanged={::this.handleBoundsChanged}
           ref="map"
         >
-          {contents}
+
           <SearchBox
             bounds={this.state.bounds}
             controlPosition={google.maps.ControlPosition.TOP_LEFT}
